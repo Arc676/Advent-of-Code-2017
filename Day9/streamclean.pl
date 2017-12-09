@@ -12,7 +12,13 @@ my $line = <$file>;
 close $file;
 
 $line =~ s/!.//g;
-$line =~ s/<.*?>//g;
+
+my $removed = 0;
+while ($line =~ s/<(.*?)>//) {
+	$removed += length $1;
+}
+print "Removed garbage characters: " . $removed . "\n";
+
 $line =~ s/[^{}]//g;
 
 my $score = 0;
