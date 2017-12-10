@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int** squares;
 int width;
@@ -42,28 +43,33 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	width = 1 + 2 * (int)strtol(argv[1], (char**)NULL, 0);
-	int x = width / 2 + 1, y = x;
+	int x = width / 2, y = x;
 	squares = malloc(width * sizeof(int));
 	for (int i = 0; i < width; i++) {
 		squares[i] = malloc(width * sizeof(int));
+		memset(squares[i], 0, width * sizeof(int));
 	}
-	int delta[] = {1, 0};
-	int edge = 0, travelled = 0, turns = 0;
+	int edge = 0;
 	while (x != width && y != 0) {
 		squares[y][x] = sumAdjacent(x, y);
-		x += delta[0];
-		y += delta[1];
-		travelled++;
-		if (travelled >= edge - 1) {
-			//turn left
-			int x = delta[0];
-			delta[0] = -delta[1];
-			delta[1] = x;
-			travelled = 0;
-			turns++;
-			if (turns >= 4) {
-				edge = 2 * (x - width/2) - 1;
+		x++;
+		edge++;
+		for (int i = 0; i < edge; i++) {
+			squares[y][x] = sumAdjacent(x, y);
+			y--;
+		}
+		edge++;
+		for (int i = 0; i < 3; i++) {
+			int delta[] = {-1, 0};
+			for (int j = 0; j < edge; j++) {
+				x += delta[0];
+				y += delta[1];
+				squares[y][x] = sumAdjacent(x, y);
 			}
+			//turn left
+			int tmp = delta[0];
+			delta[0] = -delta[1];
+			delta[1] = tmp;
 		}
 	}
 	for (int y = 0; y < width; y++) {
@@ -71,6 +77,7 @@ int main(int argc, char* argv[]) {
 			printf("%6d ", squares[y][x]);
 		}
 		free(squares[y]);
+		printf("\n");
 	}
 	free(squares);
 	return 0;
