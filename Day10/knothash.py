@@ -16,6 +16,7 @@ for length in lengths:
 	for i in range(length):
 		i0 = (currentPosition + i) % desLen
 		i1 = (currentPosition + length - i - 1) % desLen
+		print i0, "->", i1
 		if i0 == i1:
 			break
 		tmp = numList[i0]
