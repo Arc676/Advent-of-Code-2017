@@ -18,10 +18,12 @@ currentLayer = -1
 severity = 0
 for _ in range(layerCount):
 	currentLayer += 1
-	if depths[currentLayer][0] == 0:
+	if depths[currentLayer][0] == 0 and depths[currentLayer][1] > 0:
 		print "Caught in layer", currentLayer
 		severity += currentLayer * depths[currentLayer][1]
 	for layer in range(layerCount):
+		if depths[layer][1] == 0:
+			continue
 		depths[layer][0] += depths[layer][2]
 		if depths[layer][0] == 0 or depths[layer][0] == depths[layer][1] - 1:
 			depths[layer][2] *= -1
