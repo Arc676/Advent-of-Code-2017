@@ -12,10 +12,12 @@ x = tubes[0].index("|")
 delta = (0, 1)
 
 letters = []
+steps = 1
 
 while True:
 	x += delta[0]
 	y += delta[1]
+	steps += 1
 	if tubes[y][x] == " ":
 		break
 	if tubes[y][x] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
@@ -28,3 +30,4 @@ while True:
 		else:
 			delta = rdelta
 print ''.join(letters)
+print "Total steps:", steps - 1
